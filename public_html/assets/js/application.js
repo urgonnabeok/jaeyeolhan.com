@@ -67,16 +67,16 @@ $("select, input:checkbox, input:radio, input:file").uniform();
 (function($){
 	$.organizeGallery = function(data)
 	{
-		var PIN_IMAGE_WIDTH = 150;
-		var PIN_PADDING_RL = 2;
+		var PIN_IMAGE_WIDTH = 130;
+		var PIN_PADDING_RL = 20;
 		var PIN_PADDING_TOP = 3;
-		var PIN_PADDING_BOTTOM = 6;
+		var PIN_PADDING_BOTTOM = 30;
 
 		var PIN_WIDTH = PIN_IMAGE_WIDTH + (PIN_PADDING_RL * 2);
 		var PIN_HEIGHT_EXCEPT_IMAGE = PIN_PADDING_TOP + PIN_PADDING_BOTTOM;
 
-		var PIN_GAP_WIDTH = 5;
-		var PIN_GAP_HEIGHT = 5;
+		var PIN_GAP_WIDTH = 50;
+		var PIN_GAP_HEIGHT = 50;
 
 		var data;
 		var isReady = false;
@@ -126,7 +126,7 @@ $("select, input:checkbox, input:radio, input:file").uniform();
 
 			var $columns = setColumns();
 
-			$container.append($columns);
+			//$container.append($columns);
 
 			arrangePinsAlongColumns($pins, $columns);
 
@@ -161,6 +161,11 @@ $("select, input:checkbox, input:radio, input:file").uniform();
 					'width': PIN_IMAGE_WIDTH + 'px'
 				});
 
+				var $description = $('<p>', {
+					'class': 'desc',
+					'style': 'text-align:center;font-size: .7em;margin-top:10px;'
+				}).html(image.title + '<br />' + image.date + '<br />' + image.material + '<br />' + image.size);
+
 				var sold = (image.sold) ? ' [SOLD]' : '';
 				var titleForPrettyPhoto = '“' + image.title + '” ' + sold + '\n<br>' + image.material + ', ' + image.size + ', ' + image.date;
 				var $link = $('<a>', {
@@ -176,12 +181,16 @@ $("select, input:checkbox, input:radio, input:file").uniform();
 					'padding-top': PIN_PADDING_TOP,
 					'padding-right': PIN_PADDING_RL,
 					'padding-left': PIN_PADDING_RL,
-					'padding-bottom': PIN_PADDING_BOTTOM
+					'padding-bottom': PIN_PADDING_BOTTOM,
+					'display': 'inline-block',
+					'width': '170px',
+					'text-align': 'center'
 				});
 
 				$pin.get(0)._thumbHeight = image.thumbnail_height;
 				$link.append($thumb);
 				$pin.append($link);
+				$pin.append($description);
 				$pins = $pins.add($pin);
 			});
 
@@ -261,7 +270,8 @@ $("select, input:checkbox, input:radio, input:file").uniform();
 
 			$pins.each(function(index, pin){
 				$shortestColumn = getShortestColumn($columns);
-				$shortestColumn.append(pin);
+				//$shortestColumn.append(pin);
+				$container.append(pin);
 				$shortestColumn.get(0)._columnHeight += (pin._thumbHeight + PIN_HEIGHT_EXCEPT_IMAGE);
 			});
 		}
